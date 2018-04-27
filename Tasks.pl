@@ -12,8 +12,13 @@ use File::Find;
 								##NOTES##
 ######################################################################################
 ##This script is for commonly used tasks
-
-
+### 1) Greps file in either a single directory, or multiple directories based off a file input, with directories listed.
+####   Gives users the option to search for one specfic file type
+### 2) Creates multiple copies of a single file, based on user input of the number of files.
+### 3) Renames files based on user input
+### 4) Renames folders in order, based on user input
+### 5) Add a prefix to a previous file name
+### 6) Renames directories, based off of user input file
 
 ######################################################################################
 								##Main Code##
@@ -23,7 +28,7 @@ my @names; my $n=1;
 
 #Standard input from CML
 print "What would you like to do?\n";
-print "1) Grep all files in directory?\n";
+print "1) Grep all files in a directory or multiple directories\n";
 print "2) Create copies of a file\n";
 print "3) Rename files\n";
 print "4) Rename folders (in order)\n";
@@ -33,10 +38,11 @@ print "6) Renames directory based on file input\n\n";
 my $ans = <STDIN>; chomp $ans;
 
 if ($ans==1){
-	print "What is the full directory:";
-		my $dir = <STDIN>; chomp $dir;
-
-	filename($dir);
+	print "Do you want to:\n";
+		print "  1) Grep the files in one directory?\n";
+		print "  2) Grep the files in multiple directories (input file)\n\n";
+		my $ans2 = <STDIN>; chomp $ans2;
+	filename($ans2);
 } elsif($ans==2){
 	my @names;
 	print "What is the full directory:";
@@ -50,16 +56,13 @@ if ($ans==1){
 		my $tempname=<STDIN>; chomp $tempname;
 		push (@names, $tempname);
 		$n++;
-	}
-	copyfile(\@names,$dir,$old,$num);
+	} copyfile(\@names,$dir,$old,$num);
 } elsif($ans==3){
-	print "What is the full directory\n";
-		my $dir = <STDIN>; chomp $dir;
-	print "What do you want to search for in name?\n";
-		my $search = <STDIN>; chomp $search;
-	print "What do you want to replace in name?\n";
-		my $replace = <STDIN>; chomp $replace;
-	changenamefile($dir, $search, $replace);
+	print "Which do you want?\n";
+		print "  1) Only change 1 directory file\n";
+		print "  2) Input a file to change multiple directory files\n\n";
+	my $ans2 = <STDIN>; chomp $ans2;
+	changenamefile($ans2);
 } elsif($ans==4){
 	print "What is the full directory\n";
 		my $dir = <STDIN>; chomp $dir;
@@ -85,14 +88,57 @@ if ($ans==1){
 								##Subroutines##
 ######################################################################################
 #This subroutine prints the files in given directory to the home screen
+#####################################################################
+								##Subroutines##
+######################################################################################
+#This subroutine prints the files in given directory to the home screen
 sub filename{
-   my ($dir)=@_;
+   my ($ans2)=@_;
+   my @data;	
+   
+   if($ans2==1){
+		print "Which directory do you want to grep\n?";
+			my $dir = <STDIN>; chomp $dir;
+			
+		opendir(DIR, $dir) or die $!;
+		while (my $file = readdir(DIR)) {
+			print "$file\n";
+		} closedir(DIR);
+	} else{
+		
+		#Determine the location and name of the file
+		print "What directory is your file in?\n";
+			my $dir = <STDIN>; chomp $dir; 
+			#my $dir = "T:\\DCEG\\CGF\\Laboratory\\Projects\\MR-0084\\NP0084-MB4\\Notes\\UpdatedDirectories"; ###Testing
+		print "What is the name of the file?\n";
+			my $file = <STDIN>; chomp $file;
+			#my $file = "Inputfile_Grepfiles.txt"; ###Testing
+		print "What type of file are you searching for?\n";
+			my $search = <STDIN>; chomp $search;
+			#my $search = ".gz"; ###Testing
 
-    opendir(DIR, $dir) or die $!;
-    while (my $file = readdir(DIR)) {
-		print "$file\n";
+		#Move to the location of the file
+		$CWD = $dir;
+		
+		#Take in data, remove header row
+		open(READ_FILE, $file) or die $!;
+		@data = <READ_FILE>;
+		shift(@data);
+
+		#Open each directory and print the files based on input search
+		for my $line (@data){
+			chomp $line;
+			$CWD = $line;
+			
+			opendir(DIR, $line) or die $!;
+			while (my $file = readdir(DIR)) {
+				if($file =~ /$search/){
+					print "$file\n";
+				} else{next;}
+			}
+			closedir(DIR);
+		}
 	}
-    closedir(DIR);
 }
 
 sub copyfile{
@@ -112,21 +158,72 @@ sub copyfile{
 }
 
 sub changenamefile{
-	my ($dir, $search, $replace)=@_;
-	my $newfile;
-    my @saved;
+	my ($ans2)=@_;
+	my $newfile; my @saved;
+	my @old_file; my @new_file;
+	my $n=0; my @data; my @full_dir;
 	
-	opendir(DIR, $dir) or die $!;
-    while (my $file = readdir(DIR)) {
-		push (@saved, $file);
+	if($ans2==1){
+		#Determine the location and file information
+		print "What is the full directory\n";
+			my $dir = <STDIN>; chomp $dir;
+		print "What do you want to search for in name?\n";
+			my $search = <STDIN>; chomp $search;
+		print "What do you want to replace in name?\n";
+			my $replace = <STDIN>; chomp $replace;
+			
+		opendir(DIR, $dir) or die $!;
+		while (my $file = readdir(DIR)) {
+			push (@saved, $file);
+		}
+		
+		foreach my $file (@saved) {
+			$newfile=$file;
+			$newfile =~ s/$search/$replace/g;
+			rename ("$dir\\$file", "$dir\\$newfile/");
+		}
+		closedir(DIR);
+	} else{
+		#Determine the location and name of the file
+		print "Where is your file?\n";
+			my $dir = <STDIN>; chomp $dir; 
+			#my $dir = "T:\\DCEG\\CGF\\Laboratory\\Projects\\MR-0084\\NP0084-MB4\\Notes\\UpdatedDirectories"; ###Testing
+		print "What is the name of the file?\n";
+			my $file = <STDIN>; chomp $file;
+			#my $file = "Inputfile_Test.txt"; ###Testing
+		
+		$CWD = $dir;
+		open(READ_FILE, $file) or die $!;
+		
+		#Take in data, remove header row
+		@data = <READ_FILE>;
+		shift(@data);
+
+		#Sort through new and old directories
+		foreach (@data) {
+			my @columns = split('\t',$_);
+			if(length $columns[1]>0){
+				push(@full_dir, $columns[0]);
+				push(@old_file, $columns[1]);
+				push(@new_file, $columns[2]);
+			} else {next;}
+		}
+		
+		foreach(@full_dir){
+			
+			#Change working directory
+			$CWD=$full_dir[$n];
+			my $new = $new_file[$n]; chomp $new;
+			my $old = $old_file[$n];
+			
+			print "This is $CWD\n";
+			print "old file $old\n";
+			print "new $new\n";
+			#Edit the files
+			rename ("$CWD\\$old", "$CWD\\$new/");
+			$n++;
+		}
 	}
-	
-	foreach my $file (@saved) {
-		$newfile=$file;
-		$newfile =~ s/$search/$replace/g;
-		rename ("$dir\\$file", "$dir\\$newfile/");
-	}
-    closedir(DIR);
 }
 
 sub createnewfolders{
