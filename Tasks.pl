@@ -33,7 +33,8 @@ print "2) Create copies of a file\n";
 print "3) Rename files\n";
 print "4) Rename folders (in order)\n";
 print "5) Add a prefix to a previous file name\n";
-print "6) Renames directory based on file input\n\n";
+print "6) Renames directory based on file input\n";
+print "7) Remove carriage returns in a text file\n\n";
 
 my $ans = <STDIN>; chomp $ans;
 
@@ -83,6 +84,13 @@ if ($ans==1){
 	print "What is the name of the file?\n";
 		my $file = <STDIN>; chomp $file;
 	renamedirect($dir,$file);
+} elsif($ans==7){
+	print "Where is the directory?\n";
+		my $dir = <STDIN>; chomp $dir; 
+	print "\nWhat is the name of the file?\n";
+		my $file = <STDIN>; chomp $file;
+	cleanfile($dir,$file);
+
 }
 #####################################################################
 								##Subroutines##
@@ -139,6 +147,8 @@ sub filename{
 			closedir(DIR);
 		}
 	}
+print "next?";
+my $next = <STDIN>;
 }
 
 sub copyfile{
@@ -292,4 +302,38 @@ sub renamedirect{
 		rename ("$current", "$replace/");
 		$n++;
 	}
+}
+
+sub cleanfile{
+	
+	#Initialize variable
+	my ($dir, $file)=@_;
+	my @storage;
+
+	#Change directories
+	$CWD=$dir;
+	
+	#Read in manifest file
+	open(READ_FILE, $file);
+	my @temp = <READ_FILE>;
+
+	#Read through each line of the directory
+	for my $line (@temp) {
+		#Remove carriage return
+		$line =~ s/\r|\n//g;
+
+		#Store each files data
+		push(@storage, $line);
+	}
+	
+	#Name the new file
+	my $new_file="cleaned_";
+	$new_file .= $file;
+		
+	#Print the compiled log to a new file
+	open (FILE, ">$new_file") or die;
+		print (FILE @storage);
+		close (FILE);
+		
+	print "\n***File conversion complete***\n";
 }
