@@ -8,6 +8,7 @@ use CPAN;
 use File::chdir;
 use File::Copy;
 use File::Find;
+
 ######################################################################################
 								##NOTES##
 ######################################################################################
@@ -19,6 +20,8 @@ use File::Find;
 ### 4) Renames folders in order, based on user input
 ### 5) Add a prefix to a previous file name
 ### 6) Renames directories, based off of user input file
+### 7) Removes carriage return from a text file (DOS to UNIX)
+### 8) Moves files listed in text file to a new directory
 
 ######################################################################################
 								##Main Code##
@@ -34,7 +37,8 @@ print "3) Rename files\n";
 print "4) Rename folders (in order)\n";
 print "5) Add a prefix to a previous file name\n";
 print "6) Renames directory based on file input\n";
-print "7) Remove carriage returns in a text file\n\n";
+print "7) Remove carriage returns in a text file\n";
+print "8) Move files to a new directory \n\n";
 
 my $ans = <STDIN>; chomp $ans;
 
@@ -90,7 +94,17 @@ if ($ans==1){
 	print "\nWhat is the name of the file?\n";
 		my $file = <STDIN>; chomp $file;
 	cleanfile($dir,$file);
-
+} elsif($ans==8){
+	print "\nWhere is text file with the file names (/location/of/pathway.txt?\n";
+		#my $list_path = <STDIN>; chomp $list_path;
+		my $list_path = "C:\\Users\\sevillas2\\Desktop\\move1.txt"; ###Testing
+	print "Where is the current file directory of the files?\n";
+		#my $cur_path = <STDIN>; chomp $cur_path; 
+		my $cur_path = "T:\\DCEG\\CGF\\Laboratory\\Projects\\MR-0084\\NP0084-MB5\\QC Data\\qiime\\Combo with NP0084-MB4\\04_23_18_input_combo\\Run2"; ###Testing;
+	print "Where is the directory to move the files into?\n";
+		#my $dest_path = <STDIN>; chomp $dest_path; 
+		my $dest_path = "T:\\DCEG\\CGF\\Laboratory\\Projects\\MR-0084\\NP0084-MB5\\QC Data\\qiime\\Combo with NP0084-MB4\\04_23_18_input_combo\\Run1"; ###Testing;
+	movefiles($list_path, $cur_path, $dest_path);
 }
 #####################################################################
 								##Subroutines##
@@ -336,4 +350,49 @@ sub cleanfile{
 		close (FILE);
 		
 	print "\n***File conversion complete***\n";
+}
+
+sub movefiles{
+	
+	#Initialize Variables
+	my ($list_path, $cur_path, $dest_path) =@_;
+	my $a = 0; my $temp_cur_path; my $temp_dest_path;
+	my @curfilepath; my @destfilepath;
+
+	#Read in text file of files to move
+	open(READ_FILE, $list_path);
+	my @temp = <READ_FILE>;
+
+	
+	#Create directory path for each file
+	for my $line (@temp) {
+		chomp $line;
+		#Add pathway to the file name
+		$temp_cur_path = $cur_path;
+		$temp_cur_path .= "\\$line";
+		$temp_dest_path = $dest_path;
+		$temp_dest_path .= "\\$line";
+
+		#Store directory path information and file names
+		push(@curfilepath, $temp_cur_path);
+		push(@destfilepath, $temp_dest_path);
+	}
+
+	#Move files to new folder
+	opendir (NDIR, $dest_path);
+	foreach my $line(@curfilepath) {
+			
+		#Open directory with FastQ folders
+		$temp_dest_path = $destfilepath[$a];
+		$CWD = $dest_path;
+
+		#Move current files into new destination folder
+		move ($line, $temp_dest_path) or die "Error with $line";
+		$a++;
+		print "File moved: $line\n";
+	}
+		
+	closedir(NDIR);
+	print "\nCompleted moving files";
+	
 }
