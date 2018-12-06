@@ -1,0 +1,2 @@
+OldLocation	NewLocation	File
+T:\\DCEG\\CGF\\TempFileSwap\\Sam\\QDNA	T:\\DCEG\\CGF\\TempFileSwap\\Sam\\QDNA\\Test	PC16260.xls

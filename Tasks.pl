@@ -97,19 +97,9 @@ if ($ans==1){
 } elsif($ans==8){
 	print "\nWhere is text file with the file names (/location/of/pathway.txt?\n";
 		#my $list_path = <STDIN>; chomp $list_path;
-		my $list_path = "C:\\Users\\sevillas2\\Desktop\\move1.txt"; ###Testing
-	print "Where is the current file directory of the files?\n";
-		#my $cur_path = <STDIN>; chomp $cur_path; 
-		my $cur_path = "T:\\DCEG\\CGF\\Laboratory\\Projects\\MR-0084\\NP0084-MB5\\QC Data\\qiime\\Combo with NP0084-MB4\\04_23_18_input_combo\\Run2"; ###Testing;
-	print "Where is the directory to move the files into?\n";
-		#my $dest_path = <STDIN>; chomp $dest_path; 
-		my $dest_path = "T:\\DCEG\\CGF\\Laboratory\\Projects\\MR-0084\\NP0084-MB5\\QC Data\\qiime\\Combo with NP0084-MB4\\04_23_18_input_combo\\Run1"; ###Testing;
-	movefiles($list_path, $cur_path, $dest_path);
+		my $list_path = "C:\\Program Files\\Git\\Coding\\GeneralTasks\\Inputfile_ChangeDir.txt"; ###Testing
+	movefiles($list_path);
 }
-#####################################################################
-								##Subroutines##
-######################################################################################
-#This subroutine prints the files in given directory to the home screen
 #####################################################################
 								##Subroutines##
 ######################################################################################
@@ -212,9 +202,10 @@ sub changenamefile{
 		print "Where is your file?\n";
 			my $dir = <STDIN>; chomp $dir; 
 			#my $dir = "T:\\DCEG\\CGF\\Laboratory\\Projects\\MR-0084\\NP0084-MB4\\Notes\\UpdatedDirectories"; ###Testing
+			#C:\\Program Files\\Git\\Coding\\GeneralTasks
 		print "What is the name of the file?\n";
 			my $file = <STDIN>; chomp $file;
-			#my $file = "Inputfile_Test.txt"; ###Testing
+			#my $file = "Inputfile_ChangeFile.txt"; ###Testing
 		
 		$CWD = $dir;
 		open(READ_FILE, $file) or die $!;
@@ -355,44 +346,47 @@ sub cleanfile{
 sub movefiles{
 	
 	#Initialize Variables
-	my ($list_path, $cur_path, $dest_path) =@_;
+	my ($list_path) =@_;
 	my $a = 0; my $temp_cur_path; my $temp_dest_path;
-	my @curfilepath; my @destfilepath;
+	my @curfilepath; my @destfilepath; my @new_file;
 
 	#Read in text file of files to move
 	open(READ_FILE, $list_path);
 	my @temp = <READ_FILE>;
-
 	
-	#Create directory path for each file
-	for my $line (@temp) {
-		chomp $line;
-		#Add pathway to the file name
-		$temp_cur_path = $cur_path;
-		$temp_cur_path .= "\\$line";
-		$temp_dest_path = $dest_path;
-		$temp_dest_path .= "\\$line";
-
-		#Store directory path information and file names
-		push(@curfilepath, $temp_cur_path);
-		push(@destfilepath, $temp_dest_path);
+	#Create directory path for each file, remove header line
+	shift @temp;
+	foreach (@temp) {
+		my @columns = split('\t',$_);
+		if(length $columns[1]>0){
+			push(@curfilepath, $columns[0]);
+			push(@destfilepath, $columns[1]);
+			push(@new_file, $columns[2]);
+		} else {next;}
 	}
 
 	#Move files to new folder
-	opendir (NDIR, $dest_path);
+	#opendir (NDIR, $dest_path);
 	foreach my $line(@curfilepath) {
 			
 		#Open directory with FastQ folders
-		$temp_dest_path = $destfilepath[$a];
-		$CWD = $dest_path;
+		$temp_dest_path = $destfilepath[$a]; print $destfilepath[$a];
+		$CWD = $destfilepath[$a];
+		$line .= "\\";
+		$line .= $new_file[$a];
 
 		#Move current files into new destination folder
-		move ($line, $temp_dest_path) or die "Error with $line";
+		#move ($line, $temp_dest_path) or die "\nError with $line";
+		move("T:\\DCEG\\CGF\\TempFileSwap\\Sam\\QDNA\PC16260.xls","T:\\DCEG\\CGF\\TempFileSwap\\Sam\\QDNA\\Test");
 		$a++;
-		print "File moved: $line\n";
+		print "File moved: $new_file[$a]\n";
 	}
 		
-	closedir(NDIR);
+	#closedir(NDIR);
 	print "\nCompleted moving files";
 	
 }
+##################################################
+				#Updates#
+##################################################	
+#12/4/18: Update test location for #2 (rename files)
