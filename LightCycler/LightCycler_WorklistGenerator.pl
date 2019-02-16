@@ -1,5 +1,6 @@
 #!/usr/bin/perl
 #User: Samantha Chill
+#Date: 2/16/18
 
 use strict;
 use warnings;
@@ -10,7 +11,6 @@ use CPAN;
 								##NOTES##
 ######################################################################################
 ##This script is generating the text file needed for the LightCycler Autoloader
-
 
 ######################################################################################
 								##Main Code##
@@ -44,11 +44,12 @@ file($plate_num, \@barcode_list, \@prot_list);
 #####################################################################
 								##Subroutines##
 ######################################################################
+#Generates array of barcodes to be run
 sub plates{
 	my ($plate_num, $barcode_list)=@_;
 	my $n=1;
 	
-	#Create array of barcode numbers
+	#Create array of barcode numbers, iterating through number of plates
 	until ($plate_num==0){
 		print "Scan barcode #$n: ";
 		my $barcode = <STDIN>; chomp $barcode;
@@ -59,6 +60,7 @@ sub plates{
 	print "\n";
 }	
 
+#Generates array of protocols for all plates
 sub protocol{
 	#Initialize variables
 	my($prot_num, $plat_num, $barcode_list, $pro_list)=@_;
@@ -85,10 +87,12 @@ sub protocol{
 			print "11) mtDNA - ND5\n";
 			print "12) mtDNA - HB8\n";
 			print "Choice: ";
+		
+		#Save choice
 		my $prot_choice = <STDIN>; chomp $prot_choice;
 		#my $prot_choice =1; ###Testing
 		
-		#Create lightcycler naming scheme
+		#Create lightcycler naming scheme to match file location
 		if($prot_choice==1){
 			$prot_name=",/CGFBio/Macros/AP - AmpliSeq Library Quant";
 		} elsif($prot_choice==2){
@@ -122,6 +126,7 @@ sub protocol{
 			push(@prot_list, $prot_name);
 			$plate_counter=$plate_counter-1;
 		}
+	#If multiple protocols have been selected, iteration until number of plates has been reaches
 	} else{
 		until ($plate_counter==0){
 			#Prompt user for protocol
@@ -139,6 +144,7 @@ sub protocol{
 			print "11) mtDNA - ND5\n";
 			print "12) mtDNA - HB8\n";
 			print "Choice: ";
+			#Save choice
 			my $prot_choice = <STDIN>; chomp $prot_choice;
 			
 			#Create lightcycler naming scheme
@@ -179,7 +185,9 @@ sub protocol{
 	}
 }
 
+#Generates either 1 or 2 test files, with information for LC runs, as well as archives older files, as needed
 sub file{
+	#Initialize variables
 	my ($plate_num, $barcode_list, $prot_list)=@_;
 	my $n=0; my @final_array;
 	my @file_olddata; 
@@ -190,7 +198,7 @@ sub file{
 	
 	#Create new file name with time stamp
 	my $file_newname = "archived_manifest_2019";	$file_newname .= $mon;
-	$file_newname .= $mday;	$file_newname .= ".txt";
+	$file_newname .= $mday;	$file_newname .= "_"; $file_newname .= $hour; $file_newname .= $min; $file_newname .= ".txt";
 
 	#Determine if a new work list needs to be created, or if the current list should be updated
 	print "\nAre you:\n";
@@ -213,17 +221,22 @@ sub file{
 	@file_olddata= <READ_FILE>;
 	close READ_FILE;
 	
+	#If user wants to update current work list
 	if($status==1){
+		#Removes carriage return
 		chomp @file_olddata;
+		
 		#Print new lines of data to old data file
 		foreach my $line (@final_array) {
 			push (@file_olddata, $line);
 		}
+		
 		#Reopen file for output, save combined output
 		open (FILE, ">$file_oldname");
 		foreach my $line (@file_olddata){
 			print FILE join("\t",$line), "\n";
 		}
+	#If old file should be archived, and new file created
 	} else{
 		
 		#Save old data to a new file name with time stamp
@@ -240,5 +253,7 @@ sub file{
 	}
 }
 
-
-
+######################################################################
+## TRACKING ##
+######################################################################
+#2/16/18 - code created and uploaded to GIT

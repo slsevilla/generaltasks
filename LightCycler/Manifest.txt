@@ -1,1 +1,2 @@
-la,/CGFBio/Macros/AP - AmpliSeq Library Quant
+PC1,/CGFBio/Macros/AP - AmpliSeq Library Quant
+pc1,/CGFBio/Macros/AP - AmpliSeq Library Quant
