@@ -1,2 +1,5 @@
 OldLocation	NewLocation	File
-T:\\DCEG\\CGF\\TempFileSwap\\Sam\\QDNA	T:\\DCEG\\CGF\\TempFileSwap\\Sam\\QDNA\\Test	PC16260.xls
+T:\\DCEG\\CGF\\TempFileSwap\\Sam\\QDNA	T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-030\Quant\\QDNA	PC16268.xls
+T:\\DCEG\\CGF\\TempFileSwap\\Sam\\QDNA	T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-031\\Quant\\QDNA	PC16269.xls
+T:\\DCEG\\CGF\\TempFileSwap\\Sam\\QDNA	T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-032\\Quant\\QDNA	PC16270.xls
+T:\\DCEG\\CGF\\TempFileSwap\\Sam\\QDNA	T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-033\\Quant\\QDNA	PC16271.xls

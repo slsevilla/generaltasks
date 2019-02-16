@@ -95,10 +95,12 @@ if ($ans==1){
 		my $file = <STDIN>; chomp $file;
 	cleanfile($dir,$file);
 } elsif($ans==8){
-	print "\nWhere is text file with the file names (/location/of/pathway.txt?\n";
-		#my $list_path = <STDIN>; chomp $list_path;
-		my $list_path = "C:\\Program Files\\Git\\Coding\\GeneralTasks\\Inputfile_ChangeDir.txt"; ###Testing
-	movefiles($list_path);
+	print "\nHave you updated the file C:\\Program Files\\Git\\Coding\\GeneralTasks\\Inputfile_ChangeDir.txt: ";
+		my $ans = <STDIN>; chomp $ans;
+	if ($ans='Y') {
+		my $list_path = "C:\\Program Files\\Git\\Coding\\GeneralTasks\\Inputfile_ChangeDir.txt";
+		movefiles($list_path);
+	}
 }
 #####################################################################
 								##Subroutines##
@@ -370,23 +372,22 @@ sub movefiles{
 	foreach my $line(@curfilepath) {
 			
 		#Open directory with FastQ folders
-		$temp_dest_path = $destfilepath[$a]; print $destfilepath[$a];
-		$CWD = $destfilepath[$a];
-		$line .= "\\";
+		$temp_dest_path = $destfilepath[$a]; #print $destfilepath[$a];
+		$line .= "\\\\";
 		$line .= $new_file[$a];
+		chomp $line;
 
 		#Move current files into new destination folder
-		#move ($line, $temp_dest_path) or die "\nError with $line";
-		move("T:\\DCEG\\CGF\\TempFileSwap\\Sam\\QDNA\PC16260.xls","T:\\DCEG\\CGF\\TempFileSwap\\Sam\\QDNA\\Test");
+		move ($line, $temp_dest_path) or die "\nError with $line";
+		#move("T:\\DCEG\\CGF\\TempFileSwap\\Sam\\QDNA\\PC16268.xls","T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-030\\Quant\\QDNA"); ##Testing
+		print "\nFile moved: $new_file[$a]";
 		$a++;
-		print "File moved: $new_file[$a]\n";
 	}
-		
-	#closedir(NDIR);
-	print "\nCompleted moving files";
+	print "***Completed moving files***";
 	
 }
 ##################################################
 				#Updates#
 ##################################################	
 #12/4/18: Update test location for #2 (rename files)
+#1/1/19: Update move file function #8 - functional
