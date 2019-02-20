@@ -17,6 +17,7 @@ use CPAN;
 ######################################################################################
 my @barcode_list = ();
 my @prot_list =();
+my @module_loc=(); my @module_name;
 my $prot_num;
 
 #Determine parameters
@@ -37,154 +38,112 @@ if($plate_num>1){
 print "\n";
 
 #Run subroutines
-plates ($plate_num, \@barcode_list);
-protocol ($prot_num, $plate_num, \@barcode_list, \@prot_list);
+read_modules(\@module_loc, \@module_name);
+plates_modules ($prot_num, $plate_num,\@module_loc, \@module_name, \@barcode_list, \@prot_list);
 file($plate_num, \@barcode_list, \@prot_list);
 
 #####################################################################
 								##Subroutines##
 ######################################################################
-#Generates array of barcodes to be run
-sub plates{
-	my ($plate_num, $barcode_list)=@_;
-	my $n=1;
-	
-	#Create array of barcode numbers, iterating through number of plates
-	until ($plate_num==0){
-		print "Scan barcode #$n: ";
-		my $barcode = <STDIN>; chomp $barcode;
-		push(@barcode_list, $barcode);
-		$plate_num=$plate_num-1;
-		$n++;
-	}
-	print "\n";
-}	
-
-#Generates array of protocols for all plates
-sub protocol{
+#Reads in the module names and creates list for user to choose as well as directory paths
+sub read_modules{
 	#Initialize variables
-	my($prot_num, $plat_num, $barcode_list, $pro_list)=@_;
-	my $prot_name;
-	my $plate_counter = $plate_num;
-	my $n=0;
+	my ($module_loc, $module_name)=@_;
+	my $file_module= "module_list.txt";
+	
+		#Open Module file
+	open (MOD_FILE, "$file_module") or die;
+	@module_loc= <MOD_FILE>;
+	close MOD_FILE;
+
+	#Removes carriage return
+	chomp @module_loc;
+	
+	#Create Array for user to choose
+	foreach my $line (@module_loc){
+		my $temp = $line;
+		$temp =~ s/,\/CGFBio\/Macros\///g;
+		push(@module_name, $temp);
+	}		
+
+}
+#Reads in barcodes and selection of modules from user
+sub plates_modules{
+	
+	#Initialize variables
+	my($prot_num, $plat_num, $module_loc, $module_name, $barcode_list, $pro_list)=@_;
+	my $prot_name;	my $plate_counter;
+	my $n=1;
 	
 	#If there is only one protocol to run
 	if($prot_num==1){
-		#Prompt user for protocol
+		
+		#Start counter
+		$plate_counter = 0;
+
+		#Create array of barcode numbers, iterating through number of plates
+		until ($plate_counter==$plat_num){
+			print "Scan barcode: ";
+			my $barcode = <STDIN>; chomp $barcode;
+			push(@barcode_list, $barcode);
+			$plate_counter++;
+		}
+		
+		#Formatting break
+		print "\n";
+		
+		#Prompt user for protocol with variations for single or all plates
 		if ($plat_num==1){
 			print "\nWhich protocol would you like to run for $barcode_list[0]:\n";
+			
 		} else {print "\nWhich protocol would you like to run for all plates:\n";}
-			print "1) AmpliSeq Library Quant\n";
-			print "2) Illumina Exome Library Quant\n";
-			print "3) AmpliSeq Exome Library Quant\n";
-			print "4) Quantifiler\n";
-			print "5) Telo\n";
-			print "6) 36B4\n";
-			print "7) 2Q Copy Number SOP\n";
-			print "8) 4Q Copy Number SOP\n";
-			print "9) Y Chromosome SOP\n";
-			print "10) mtDNA - ND1\n";
-			print "11) mtDNA - ND5\n";
-			print "12) mtDNA - HB8\n";
-			print "Choice: ";
+		
+		#Print all module names, and "Choice"
+		foreach my $line (@module_name){
+			print "$n) $line \n";
+			$n++;
+		}
+		print "Choice: ";
 		
 		#Save choice
 		my $prot_choice = <STDIN>; chomp $prot_choice;
 		#my $prot_choice =1; ###Testing
-		
-		#Create lightcycler naming scheme to match file location
-		if($prot_choice==1){
-			$prot_name=",/CGFBio/Macros/AP - AmpliSeq Library Quant";
-		} elsif($prot_choice==2){
-			$prot_name=",/CGFBio/Macros/HE - Illumina Exmo Library Quant";
-		} elsif($prot_choice==3){
-			$prot_name=",/CGFBio/Macros/PE - AmpliSeq Exome Library Quant";
-		} elsif($prot_choice==4){
-			$prot_name=",/CGFBio/Macros/Quantifiler";
-		} elsif($prot_choice==5){
-			$prot_name=",/CGFBio/Macros/Telo";
-		} elsif($prot_choice==6){
-			$prot_name=",/CGFBio/Macros/36B4";
-		} elsif($prot_choice==7){
-			$prot_name=",/CGFBio/Macros/2Q Copy Number SOP";
-		} elsif($prot_choice==8){
-			$prot_name=",/CGFBio/Macros/4Q Copy Number SOP";
-		} elsif($prot_choice==9){
-			$prot_name=",/CGFBio/Macros/Y Chromosome SOP";
-		} elsif($prot_choice==10){
-			$prot_name=",/CGFBio/Macros/mtDNA - ND1";
-		} elsif($prot_choice==11){
-			$prot_name=",/CGFBio/Macros/mtDNA - ND5";
-		} elsif($prot_choice==12){
-			$prot_name=",/CGFBio/Macros/mtDNA - HB8";
-		} elsif($prot_choice==13){
-			$prot_name=",/CGFBio/Macros/Macro HudsonDemo";
-		}
-		
+			
 		#Create array of single protocol name
+		#Note -1 because array starts at 0
 		until ($plate_counter==0){
-			push(@prot_list, $prot_name);
+			push(@prot_list, $module_loc[$prot_choice-1]);
 			$plate_counter=$plate_counter-1;
 		}
-	#If multiple protocols have been selected, iteration until number of plates has been reaches
-	} else{
-		until ($plate_counter==0){
-			#Prompt user for protocol
-			print "\nWhich protocol would you like to run for $barcode_list[$n]:\n";
-			print "1) AmpliSeq Library Quant\n";
-			print "2) Illumina Exome Library Quant\n";
-			print "3) AmpliSeq Exome Library Quant\n";
-			print "4) Quantifiler\n";
-			print "5) Telo\n";
-			print "6) 36B4\n";
-			print "7) 2Q Copy Number SOP\n";
-			print "8) 4Q Copy Number SOP\n";
-			print "9) Y Chromosome SOP\n";
-			print "10) mtDNA - ND1\n";
-			print "11) mtDNA - ND5\n";
-			print "12) mtDNA - HB8\n";
-			print "Choice: ";
-			#Save choice
-			my $prot_choice = <STDIN>; chomp $prot_choice;
+		
+	#If there are more protocols to run
+	} else {
+		#Start counter
+		$plate_counter = 0;
+
+		#Create array of barcode numbers, iterating through number of plates, also asking for the protocols to run
+		until ($plate_counter==$plat_num){
+			$n=1;
+			print "\nScan barcode: ";
+			my $barcode = <STDIN>; chomp $barcode;
+			push(@barcode_list, $barcode);
 			
-			#Create lightcycler naming scheme
-			if($prot_choice==1){
-				$prot_name=",/CGFBio/Macros/AP - AmpliSeq Library Quant";
-			} elsif($prot_choice==2){
-				$prot_name=",/CGFBio/Macros/HE - Illumina Exmo Library Quant";
-			} elsif($prot_choice==3){
-				$prot_name=",/CGFBio/Macros/PE - AmpliSeq Exome Library Quant";
-			} elsif($prot_choice==4){
-				$prot_name=",/CGFBio/Macros/Quantifiler";
-			} elsif($prot_choice==5){
-				$prot_name=",/CGFBio/Macros/Telo";
-			} elsif($prot_choice==6){
-				$prot_name=",/CGFBio/Macros/36B4";
-			} elsif($prot_choice==7){
-				$prot_name=",/CGFBio/Macros/2Q Copy Number SOP";
-			} elsif($prot_choice==8){
-				$prot_name=",/CGFBio/Macros/4Q Copy Number SOP";
-			} elsif($prot_choice==9){
-				$prot_name=",/CGFBio/Macros/Y Chromosome SOP";
-			} elsif($prot_choice==10){
-				$prot_name=",/CGFBio/Macros/mtDNA - ND1";
-			} elsif($prot_choice==11){
-				$prot_name=",/CGFBio/Macros/mtDNA - ND5";
-			} elsif($prot_choice==12){
-				$prot_name=",/CGFBio/Macros/mtDNA - HB8";
-			} elsif($prot_choice==13){
-				$prot_name=",/CGFBio/Macros/Macro HudsonDemo";
+			#Ask user which protocol to run for selected barcode, printing all names then "Choice"
+			print "Which protocol would you like to run for $barcode_list[$plate_counter]:\n";
+			foreach my $line (@module_name){
+				print "$n) $line \n";
+				$n++;
 			}
+			print "Choice: ";
 			
-			#Create array of all protocol names
-			push(@prot_list, $prot_name);
-			$plate_counter=$plate_counter-1;
-			$n++;
-			print "\n";
+			#Save choice, adding it to the array
+			my $prot_choice = <STDIN>; chomp $prot_choice;
+			#my $prot_choice =1; ###Testing
+			push(@prot_list, $module_loc[$prot_choice-1]);
+			$plate_counter++;
 		}		
 	}
 }
-
 #Generates either 1 or 2 test files, with information for LC runs, as well as archives older files, as needed
 sub file{
 	#Initialize variables
@@ -206,7 +165,7 @@ sub file{
 	print "2) Starting a new run (will archive previous worklist and start new list)?\n";
 	print "Choice: ";
 	my $status = <STDIN>; chomp $status;
-	#my $status =2; ###Testing
+	#my $status =1; ###Testing
 	
 	#Combine barcode list and protocol list
 	until ($plate_num==0){
@@ -256,4 +215,5 @@ sub file{
 ######################################################################
 ## TRACKING ##
 ######################################################################
-#2/16/18 - code created and uploaded to GIT
+#2/16/19 - code created and uploaded to GIT
+#2/19/19 - code updates to read in module list from text file, prompt user for module name after each barcode entry
