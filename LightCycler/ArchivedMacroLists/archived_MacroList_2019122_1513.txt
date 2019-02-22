@@ -1,0 +1,6 @@
+PC1,/CGFBio/Macros/PE - AmpliSeq Exome Library Quant
+
+pc2,/CGFBio/Macros/Telo
+
+1,/CGFBio/Macros/AP - AmpliSeq Library Quant
+

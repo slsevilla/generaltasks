@@ -1,6 +1,0 @@
-pc1,/CGFBio/Macros/PE - AmpliSeq Exome Library Quant
-pc1,/CGFBio/Macros/Macro HudsonDemo
-pc2,/CGFBio/Macros/Macro HudsonDemo
-pc4,/CGFBio/Macros/HE - Illumina Exmo Library Quant
-pc5,/CGFBio/Macros/36B4
-pc7,/CGFBio/Macros/mtDNA - HB8

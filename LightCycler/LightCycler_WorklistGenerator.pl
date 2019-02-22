@@ -49,7 +49,7 @@ file($plate_num, \@barcode_list, \@prot_list);
 sub read_modules{
 	#Initialize variables
 	my ($module_loc, $module_name)=@_;
-	my $file_module= "module_list.txt";
+	my $file_module= "MacroReference_List.txt";
 	
 		#Open Module file
 	open (MOD_FILE, "$file_module") or die;
@@ -150,13 +150,13 @@ sub file{
 	my ($plate_num, $barcode_list, $prot_list)=@_;
 	my $n=0; my @final_array;
 	my @file_olddata; 
-	my $file_oldname = "manifest.txt";
+	my $file_oldname = "MacroList.txt";
 	
 	#Get date information
 	my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
 	
 	#Create new file name with time stamp
-	my $file_newname = "archived_manifest_2019";	$file_newname .= $mon;
+	my $file_newname = "archived_MacroList_2019";	$file_newname .= $mon;
 	$file_newname .= $mday;	$file_newname .= "_"; $file_newname .= $hour; $file_newname .= $min; $file_newname .= ".txt";
 
 	#Determine if a new work list needs to be created, or if the current list should be updated
@@ -167,6 +167,16 @@ sub file{
 	my $status = <STDIN>; chomp $status;
 	#my $status =1; ###Testing
 	
+	#Add warning
+	if($status==2){
+		print "\n\n*************************";
+		print "\nYou have selected to archive previous list. Note that all currently running or stacked plates will not run with this update.";
+		print "\n1) Select to add plates to the instrument (will update current worklist) \n2) Select to continue archiving step\n";
+		print "Choice: ";
+		$status=<STDIN>; chomp $status;
+	}
+
+	
 	#Combine barcode list and protocol list
 	until ($plate_num==0){
 		my $temp_line = $barcode_list[$n] .= $prot_list[$n];
@@ -175,7 +185,7 @@ sub file{
 		$plate_num=$plate_num-1;
 	}
 	
-	#Open current manifest and save data
+	#Open current MacroList and save data
 	open (READ_FILE, "$file_oldname") or die;
 	@file_olddata= <READ_FILE>;
 	close READ_FILE;
@@ -197,12 +207,17 @@ sub file{
 		}
 	#If old file should be archived, and new file created
 	} else{
+		###Testing
+		#my $path =  "C:\\Program Files\\Git\\Coding\\GeneralTasks\\LightCycler\\ArchivedMacroLists";
+		my $path =  "C:\\SoftLinxProtocols\\ArchivedMacroLists";
 		
 		#Save old data to a new file name with time stamp
-		open(NEW_FILE, ">$file_newname") or die;
+		open(DIR, $path);
+		open(NEW_FILE, ">$path/$file_newname") or die;
 		foreach my $line (@file_olddata){
 			print NEW_FILE join("\t",$line), "\n";
 		}
+		close(DIR);
 		
 		#Print new data only to file
 		open(FILE, ">$file_oldname") or die;
