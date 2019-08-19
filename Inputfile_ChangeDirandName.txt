@@ -1,0 +1,26 @@
+OldPath	OldName	NewLocation	NewName
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-035\\Quant\\QDNA	PC21470.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-036\\Quant\\QDNA	PC21471.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-034\\Quant\\QDNA	PC21469.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-037\\Quant\\QDNA	PC21472.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-037\\Quant\\QDNA	PC21472_1.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-037\\Quant\\QDNA	PC21472_2.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-038\\Quant\\QDNA	PC21473.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-038\\Quant\\QDNA	PC21473_1.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-038\\Quant\\QDNA	PC21473_2.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-039\\Quant\\QDNA	PC21474.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-039\\Quant\\QDNA	PC21474_1.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-039\\Quant\\QDNA	PC21474_2.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-040\\Quant\\QDNA	PC21475.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-041\\Quant\\QDNA	PC21476.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-041\\Quant\\QDNA	PC21476_1.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-041\\Quant\\QDNA	PC21476_2.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-042\\Quant\\QDNA	PC21477.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-043\\Quant\\QDNA	PC21478.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-044\\Quant\\QDNA	PC21479.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-045\\Quant\\QDNA	PC21480.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-046\\Quant\\QDNA	PC21481.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-047\\Quant\\QDNA	PC21482.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-048\\Quant\\QDNA	PC21483.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-049\\Quant\\QDNA	PC21484.xls
+		T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-050\\Quant\\QDNA	PC21485.xls

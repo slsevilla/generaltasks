@@ -22,6 +22,7 @@ use File::Find;
 ### 6) Renames directories, based off of user input file
 ### 7) Removes carriage return from a text file (DOS to UNIX)
 ### 8) Moves files listed in text file to a new directory
+### 9) Moves and renames files listed in a text file to a new directory
 
 ######################################################################################
 								##Main Code##
@@ -97,11 +98,19 @@ if ($ans==1){
 } elsif($ans==8){
 	print "\nHave you updated the file C:\\Program Files\\Git\\Coding\\GeneralTasks\\Inputfile_ChangeDir.txt: ";
 		my $ans = <STDIN>; chomp $ans;
-	if ($ans='Y') {
+	if ($ans=~'Y') {
 		my $list_path = "C:\\Program Files\\Git\\Coding\\GeneralTasks\\Inputfile_ChangeDir.txt";
 		movefiles($list_path);
 	}
+} elsif($ans==9){
+	print "\nHave you updated the file C:\\Program Files\\Git\\Coding\\GeneralTasks\\Inputfile_ChangeDirandName.txt: ";
+		my $ans = <STDIN>; chomp $ans;
+	if ($ans=~'Y') {
+		my $list_path = "C:\\Program Files\\Git\\Coding\\GeneralTasks\\Inputfile_ChangeDirandName.txt";
+		movefiles($list_path);
+	}
 }
+
 #####################################################################
 								##Subroutines##
 ######################################################################################
@@ -386,8 +395,56 @@ sub movefiles{
 	print "***Completed moving files***";
 	
 }
+
+sub moveandrenamefiles{
+	
+	#Initialize Variables
+	my ($list_path) =@_;
+	my $n = 0; my $temp_cur_path; my $temp_dest_path;
+	my @curfilepath; my @destfilepath; my @new_file; my @old_name;
+
+	#Read in text file of files to move
+	open(READ_FILE, $list_path);
+	my @temp = <READ_FILE>;
+	
+	#Create directory path for each file, remove header line
+	shift @temp;
+	foreach (@temp) {
+		my @columns = split('\t',$_);
+		if(length $columns[1]>0){
+			push(@curfilepath, $columns[0]);
+			push(@old_name, $columns[1]);
+			push(@destfilepath, $columns[2]);
+			push(@new_file, $columns[3]);
+		} else {next;}
+	}
+
+	#Move files to new folder
+	#opendir (NDIR, $dest_path);
+	foreach my $line(@curfilepath) {
+		
+		#Copy file in original destination, and rename
+		copy ("$line\\$old_name[$n]", "$destfilepath[$n]\\$new_file[$n]" );
+				
+		#Create new destination path, with new file name
+		#$temp_dest_path = $destfilepath[$a];
+		#$line .= "\\\\";
+		#$line .= $new_file[$a];
+		#chomp $line;
+
+		#Move current files into new destination folder
+		#move ($line, $temp_dest_path) or die "\nError with $line";
+		#move("T:\\DCEG\\CGF\\TempFileSwap\\Sam\\QDNA\\PC16268.xls","T:\\DCEG\\CGF\\Laboratory\\Studies\\CGF\\sFEMB-001\\sFEMB-001-R-030\\Quant\\QDNA"); ##Testing
+		#print "\nFile moved: $new_file[$a]";
+		$n++;
+	}
+	print "***Completed moving files***";
+	
+}
+
 ##################################################
 				#Updates#
 ##################################################	
 #12/4/18: Update test location for #2 (rename files)
 #1/1/19: Update move file function #8 - functional
+#7/20/19: Created move and rename function #9

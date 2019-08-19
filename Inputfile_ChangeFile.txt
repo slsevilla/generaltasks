@@ -1,9 +1,20 @@
-File Path	Old File Name	New File Name	
-T:\DCEG\CGF\TempFileSwap\Sam\QDNA	PC16238.xls	PC16264.xls	
-T:\DCEG\CGF\TempFileSwap\Sam\QDNA	PC16239.xls	PC16265.xls	
-T:\DCEG\CGF\TempFileSwap\Sam\QDNA	PC16240.xls	PC16266.xls	
-T:\DCEG\CGF\TempFileSwap\Sam\QDNA	PC16241.xls	PC16267.xls	
-T:\DCEG\CGF\TempFileSwap\Sam\QDNA	PC16246.xls	PC16268.xls	
-T:\DCEG\CGF\TempFileSwap\Sam\QDNA	PC16247.xls	PC16269.xls	
-T:\DCEG\CGF\TempFileSwap\Sam\QDNA	PC16248.xls	PC16270.xls	
-T:\DCEG\CGF\TempFileSwap\Sam\QDNA	PC16249.xls	PC16271.xls	
+File Path	Old File Name	New File Name
+T:\DCEG\Projects\Microbiome\CGR_MB\MicroBiome\Project_16S+ITS_Panels\Data_Compiled	16S-180914-pB-1_S43_L001_R1_001.fastq.gz	Sample_6_L001_R1_001.fastq.gz
+T:\DCEG\Projects\Microbiome\CGR_MB\MicroBiome\Project_16S+ITS_Panels\Data_Compiled	16S-180914-pB-1_S43_L001_R2_001.fastq.gz	Sample_6_L001_R2_001.fastq.gz
+T:\DCEG\Projects\Microbiome\CGR_MB\MicroBiome\Project_16S+ITS_Panels\Data_Compiled	16S-180914-pB-2_S44_L001_R1_001.fastq.gz	Sample_7_L001_R1_001.fastq.gz
+T:\DCEG\Projects\Microbiome\CGR_MB\MicroBiome\Project_16S+ITS_Panels\Data_Compiled	16S-180914-pB-2_S44_L001_R2_001.fastq.gz	Sample_7_L001_R2_001.fastq.gz
+T:\DCEG\Projects\Microbiome\CGR_MB\MicroBiome\Project_16S+ITS_Panels\Data_Compiled	16S-180914-pB-3_S45_L001_R1_001.fastq.gz	Sample_8_L001_R1_001.fastq.gz
+T:\DCEG\Projects\Microbiome\CGR_MB\MicroBiome\Project_16S+ITS_Panels\Data_Compiled	16S-180914-pB-3_S45_L001_R2_001.fastq.gz	Sample_8_L001_R2_001.fastq.gz
+T:\DCEG\Projects\Microbiome\CGR_MB\MicroBiome\Project_16S+ITS_Panels\Data_Compiled	ATCC-S5_S21_L001_R1_001.fastq.gz	Sample_2_L001_R1_001.fastq.gz
+T:\DCEG\Projects\Microbiome\CGR_MB\MicroBiome\Project_16S+ITS_Panels\Data_Compiled	ATCC-S5_S21_L001_R2_001.fastq.gz	Sample_2_L001_R2_001.fastq.gz
+T:\DCEG\Projects\Microbiome\CGR_MB\MicroBiome\Project_16S+ITS_Panels\Data_Compiled	contig_list_trimmed.fa	Sample_1_trimmed.fa
+T:\DCEG\Projects\Microbiome\CGR_MB\MicroBiome\Project_16S+ITS_Panels\Data_Compiled	E.coli-S1_S17_L001_R1_001.fastq.gz	Sample_3_L001_R1_001.fastq.gz
+T:\DCEG\Projects\Microbiome\CGR_MB\MicroBiome\Project_16S+ITS_Panels\Data_Compiled	E.coli-S1_S17_L001_R2_001.fastq.gz	Sample_3_L001_R2_001.fastq.gz
+T:\DCEG\Projects\Microbiome\CGR_MB\MicroBiome\Project_16S+ITS_Panels\Data_Compiled	SmartControl-S12_S28_L001_R1_001.fastq.gz	Sample_4_L001_R1_001.fastq.gz
+T:\DCEG\Projects\Microbiome\CGR_MB\MicroBiome\Project_16S+ITS_Panels\Data_Compiled	SmartControl-S12_S28_L001_R2_001.fastq.gz	Sample_4_L001_R2_001.fastq.gz
+T:\DCEG\Projects\Microbiome\CGR_MB\MicroBiome\Project_16S+ITS_Panels\Data_Compiled	Swift_Amplicon_16S-ITSpanel_candida_1ng_R1_001.fastq_.gz	Sample_9_L001_R1_001.fastq.gz
+T:\DCEG\Projects\Microbiome\CGR_MB\MicroBiome\Project_16S+ITS_Panels\Data_Compiled	Swift_Amplicon_16S-ITSpanel_candida_1ng_R2_001.fastq_.gz	Sample_9_L001_R2_001.fastq.gz
+T:\DCEG\Projects\Microbiome\CGR_MB\MicroBiome\Project_16S+ITS_Panels\Data_Compiled	Swift_Amplicon_16S-ITSpanel_msa1003_1ng_R1_001.fastq_.gz	Sample_10_L001_R1_001.fastq.gz
+T:\DCEG\Projects\Microbiome\CGR_MB\MicroBiome\Project_16S+ITS_Panels\Data_Compiled	Swift_Amplicon_16S-ITSpanel_msa1003_1ng_R2_001.fastq_.gz	Sample_10_L001_R2_001.fastq.gz
+T:\DCEG\Projects\Microbiome\CGR_MB\MicroBiome\Project_16S+ITS_Panels\Data_Compiled	Zymo-S4_S20_L001_R1_001.fastq.gz	Sample_5_L001_R1_001.fastq.gz
+T:\DCEG\Projects\Microbiome\CGR_MB\MicroBiome\Project_16S+ITS_Panels\Data_Compiled	Zymo-S4_S20_L001_R2_001.fastq.gz	Sample_5_L001_R2_001.fastq.gz
