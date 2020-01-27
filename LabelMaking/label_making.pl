@@ -14,27 +14,30 @@ use warnings;
 use strict;
 
 print("\n******************************\n");
-print("Ensure that you've updated the input file located: T:\\DCEG\\CGF\\DESL\\Label Printing\\UpdatedPrinting\\template.txt. If you hven't, then close and create the input file. \n");
+print("Ensure that you've updated the input file located: T:\\DCEG\\CGF\\DESL\\Label Printing Template Executable\\Input\\template.txt. If you haven't, then close and create the input file. \n");
 print("******************************\n\n");
 
-print("What is your template file name (IE template_011020):");
+print("What is your template file name (IE template_011020.txt): ");
 my $input_file=<STDIN>;
 print("\n");
 
 
-print("How many sub-label types are there (IE 43):");
+print("How many sub-label types are there (IE 43): ");
 my $sub_num = <STDIN>;
 print("\n");
 
-print("What would you like the output file to be named (IE test_output):");
+print("What would you like the output file to be named (IE test_output.txt): ");
 my $output_file= <STDIN>;
 print("\n");
 
+#Paths
+my $inpath="t:/DCEG/CGF/Laboratory/Studies/CGF/_DESL_Templates/Label\ Printing\ Template\ Executable/Input";
+my $outpath="t:/DCEG/CGF/Laboratory/Studies/CGF/_DESL_Templates/Label\ Printing\ Template\ Executable/Output";
 
 #Testing
-my $path="T:\\DCEG\\CGF\\DESL\\Label Printing\\UpdatedPrinting";
-#my $sub_num=38;
-#my $output_file="test_output";
+#my $input_file="template.txt";
+#my $sub_num=17;
+#my $output_file="test_output.txt";
 #foreach my $line (@SubID){print "$line\n";}
 
 chomp $input_file;
@@ -45,10 +48,10 @@ chomp $output_file;
 my @file_data; my @Subject; my @SubID; my @Type;
 my @col_1; my @col_2;
 
-read_file($path, $input_file,\@file_data);
+read_file($inpath, $input_file,\@file_data);
 parse_file($sub_num,\@file_data, \@Subject, \@SubID, \@Type);
 create_labels(@Subject, @SubID, @Type, \@col_1, \@col_2);
-create_file($path, $output_file, @col_1, @col_2);
+create_file($outpath, $output_file, @col_1, @col_2);
 
 #Read in file
 #Reads in Microbiome Manifest from LIMS, and parses for data
@@ -56,7 +59,7 @@ sub read_file {
 	
 	#Initialize Variables
 	my ($path, $input_file, $file_data)=@_;
-	my $full_path = "$path\\$input_file\.txt";
+	my $full_path = "$path/$input_file";
 	
 	unless (open(READ_FILE, $full_path)) {
 		print "Cannot open file $full_path. Check file name and path are correct \n\n";
@@ -116,7 +119,7 @@ sub create_file{
 	my $n=0;
 	
 	#Print data to duplicate txt file
-	my $full_path = "$path\\Output\\$output_file.txt";
+	my $full_path = "$path/$output_file";
 	open (FILE, ">$full_path") or die;
 		
 	#Print data to manifest file
